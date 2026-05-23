@@ -22,21 +22,69 @@ body{font-family:'Inter',sans-serif;background:#fff;color:var(--dark);font-size:
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 60px;
-  max-width: 1200px;
+  padding: 0 64px;
+  height: 60px;
+  max-width: 1400px;
   margin: 0 auto;
 }
-.logo {
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
+.nav-logo {
+  font-size: 20px;
+  font-weight: 900;
   color: #000;
+  letter-spacing: -0.5px;
+  flex-shrink: 0;
 }
-.logo span { color: #000; }
-
-/* Hamburger button */
-.hamburger {
+.nav-links {
   display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-link {
+  font-size: 14px;
+  color: var(--mid);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+}
+.nav-link:hover { background: var(--bg2); color: #000; }
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.btn-ghost {
+  background: transparent;
+  color: #000;
+  border: 1.5px solid #000;
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.15s;
+}
+.btn-ghost:hover { background: #000; color: #fff; }
+.btn-black {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.15s;
+}
+.btn-black:hover { background: #222; }
+
+/* Hamburger — hidden on desktop */
+.hamburger {
+  display: none;
   flex-direction: column;
   justify-content: space-between;
   width: 28px;
@@ -58,7 +106,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:var(--dark);font-size:
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-/* Full screen overlay */
+/* Full screen overlay — hidden on desktop */
 .nav-overlay {
   position: fixed;
   inset: 0;
@@ -108,9 +156,14 @@ body{font-family:'Inter',sans-serif;background:#fff;color:var(--dark);font-size:
   font-size: clamp(18px, 3vw, 24px) !important;
 }
 
-@media (max-width: 768px) { .nav-inner { padding: 18px 24px; } }
+/* ── TABLET & MOBILE: show hamburger, hide desktop nav ── */
+@media (max-width: 900px) {
+  .nav-inner { padding: 0 24px; }
+  .nav-links { display: none; }
+  .nav-right { display: none; }
+  .hamburger { display: flex; }
+}
 @media (max-width: 480px) {
-  .nav-inner { padding: 16px 20px; }
   .overlay-close { right: 24px; top: 22px; }
 }
 
@@ -140,10 +193,6 @@ body{font-family:'Inter',sans-serif;background:#fff;color:var(--dark);font-size:
 .c6{width:115px;height:115px;bottom:40px;right:80px}
 .circle-badge{position:absolute;background:#000;color:#fff;padding:6px 12px;border-radius:100px;font-size:11px;font-weight:700;white-space:nowrap}
 .badge1{top:50%;left:50%;transform:translate(-50%,-50%)}
-.float-line{position:absolute;width:60px;height:1px;background:#000;opacity:0.15}
-.fl1{top:80px;left:180px;transform:rotate(-20deg)}
-.fl2{top:200px;right:140px;transform:rotate(30deg)}
-.fl3{bottom:120px;left:140px;transform:rotate(-10deg)}
 
 /* TICKER */
 .ticker-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:18px 0;overflow:hidden;background:#fff}
@@ -341,14 +390,26 @@ footer{background:#000;padding:64px;border-top:1px solid #111}
 <!-- NAV -->
 <nav class="navbar">
   <div class="nav-inner">
-    <div class="logo">Plug<span>Zone</span></div>
+    <div class="nav-logo">PlugZone</div>
+    <!-- Desktop links -->
+    <div class="nav-links">
+      <a class="nav-link" href="#how">How it works</a>
+      <a class="nav-link" href="#categories">Categories</a>
+      <a class="nav-link" href="#faq">FAQ</a>
+    </div>
+    <!-- Desktop CTA -->
+    <div class="nav-right">
+      <button class="btn-ghost">Log in</button>
+      <button class="btn-black" onclick="openModal()">Join waitlist</button>
+    </div>
+    <!-- Mobile/Tablet hamburger -->
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
-<!-- Full screen menu overlay -->
+<!-- Full screen overlay (mobile/tablet only) -->
 <div class="nav-overlay" id="navOverlay">
   <button class="overlay-close" onclick="toggleMenu()">✕</button>
   <nav class="overlay-nav">
@@ -745,44 +806,44 @@ footer{background:#000;padding:64px;border-top:1px solid #111}
   <div class="modal">
     <button class="modal-x" onclick="closeModal()">✕</button>
     <div id="mContent">
-  <h3>Join the waitlist</h3>
-  <p class="modal-sub">Be first when PlugZone launches. Early members get exclusive perks.</p>
-  <div class="fg"><input type="text" id="wName" placeholder="Your full name"/></div>
-  <div class="fg"><input type="email" id="wEmail" placeholder="Email address"/></div>
-  <div class="fg">
-    <select id="wRole" onchange="toggleSkillField()">
-      <option value="">I am joining as...</option>
-      <option value="client">I need a service</option>
-      <option value="provider">I offer a service</option>
-    </select>
-  </div>
-  <div class="fg" id="skillSelectWrap" style="display:none">
-    <select id="wSkill" onchange="toggleOtherSkill()">
-      <option value="">Select your skill</option>
-      <option value="Barber">Barber</option>
-      <option value="Hair Dresser">Hair Dresser</option>
-      <option value="Nail Technician">Nail Technician</option>
-      <option value="Private Chef">Private Chef</option>
-      <option value="Fast Food">Fast Food Joint</option>
-      <option value="Home Food Seller">Home Food Seller</option>
-      <option value="House Agent">House Agent</option>
-      <option value="House Cleaner">House Cleaner</option>
-      <option value="Mechanic">Mechanic</option>
-      <option value="Photographer">Photographer</option>
-      <option value="Electrician">Electrician</option>
-      <option value="Private Tutor">Private Tutor</option>
-      <option value="Personal Trainer">Personal Trainer</option>
-      <option value="Designer">Designer</option>
-      <option value="Delivery Rider">Delivery Rider</option>
-      <option value="other">My skill is not listed</option>
-    </select>
-  </div>
-  <div class="fg" id="otherSkillWrap" style="display:none">
-    <input type="text" id="wOtherSkill" placeholder="Enter your skill e.g. Makeup Artist"/>
-  </div>
-  <button class="modal-submit" onclick="submitWaitlist()">Get early access →</button>
-  <p class="modal-err" id="mErr"></p>
-</div>
+      <h3>Join the waitlist</h3>
+      <p class="modal-sub">Be first when PlugZone launches. Early members get exclusive perks.</p>
+      <div class="fg"><input type="text" id="wName" placeholder="Your full name"/></div>
+      <div class="fg"><input type="email" id="wEmail" placeholder="Email address"/></div>
+      <div class="fg">
+        <select id="wRole" onchange="toggleSkillField()">
+          <option value="">I am joining as...</option>
+          <option value="client">I need a service</option>
+          <option value="provider">I offer a service</option>
+        </select>
+      </div>
+      <div class="fg" id="skillSelectWrap" style="display:none">
+        <select id="wSkill" onchange="toggleOtherSkill()">
+          <option value="">Select your skill</option>
+          <option value="Barber">Barber</option>
+          <option value="Hair Dresser">Hair Dresser</option>
+          <option value="Nail Technician">Nail Technician</option>
+          <option value="Private Chef">Private Chef</option>
+          <option value="Fast Food">Fast Food Joint</option>
+          <option value="Home Food Seller">Home Food Seller</option>
+          <option value="House Agent">House Agent</option>
+          <option value="House Cleaner">House Cleaner</option>
+          <option value="Mechanic">Mechanic</option>
+          <option value="Photographer">Photographer</option>
+          <option value="Electrician">Electrician</option>
+          <option value="Private Tutor">Private Tutor</option>
+          <option value="Personal Trainer">Personal Trainer</option>
+          <option value="Designer">Designer</option>
+          <option value="Delivery Rider">Delivery Rider</option>
+          <option value="other">My skill is not listed</option>
+        </select>
+      </div>
+      <div class="fg" id="otherSkillWrap" style="display:none">
+        <input type="text" id="wOtherSkill" placeholder="Enter your skill e.g. Makeup Artist"/>
+      </div>
+      <button class="modal-submit" onclick="submitWaitlist()">Get early access →</button>
+      <p class="modal-err" id="mErr"></p>
+    </div>
   </div>
 </div>
 
@@ -794,7 +855,6 @@ function toggleMenu() {
   hamburger.classList.toggle('open');
   document.body.style.overflow = overlay.classList.contains('open') ? 'hidden' : '';
 }
-
 function openModal(){document.getElementById('modal').classList.add('open')}
 function closeModal(){document.getElementById('modal').classList.remove('open')}
 document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()})
@@ -825,16 +885,13 @@ async function submitWaitlist(){
   const email = document.getElementById('wEmail').value.trim();
   const role = document.getElementById('wRole').value;
   const err = document.getElementById('mErr');
-
   let skill = '';
   if(role === 'provider'){
     skill = document.getElementById('wSkill').value;
     if(skill === 'other') skill = document.getElementById('wOtherSkill').value.trim();
     if(!skill){err.textContent='Please select or enter your skill.';err.style.display='block';return}
   }
-
   if(!name||!email||!role){err.textContent='Please fill in all fields.';err.style.display='block';return}
-
   try{
     const res=await fetch('/waitlist/',{method:'POST',headers:{'Content-Type':'application/json','X-CSRFToken':document.cookie.match(/csrftoken=([^;]+)/)?.[1]||''},body:JSON.stringify({name,email,role,skill})});
     const data=await res.json();
