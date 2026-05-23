@@ -10,17 +10,109 @@
 :root{--dark:#0d0d0d;--mid:#444;--light:#888;--border:#e8e8e8;--bg:#fff;--bg2:#f7f7f7}
 body{font-family:'Inter',sans-serif;background:#fff;color:var(--dark);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
 
-/* NAV */
-nav{background:#fff;border-bottom:1px solid var(--border);padding:0 64px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
-.nav-logo{font-size:20px;font-weight:900;color:#000;letter-spacing:-0.5px}
-.nav-links{display:flex;align-items:center;gap:4px}
-.nav-link{font-size:14px;color:var(--mid);padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:500;text-decoration:none}
-.nav-link:hover{background:var(--bg2);color:#000}
-.nav-right{display:flex;align-items:center;gap:8px}
-.btn-ghost{background:transparent;color:#000;border:1.5px solid #000;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s}
-.btn-ghost:hover{background:#000;color:#fff}
-.btn-black{background:#000;color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background 0.15s}
-.btn-black:hover{background:#222}
+/* ── NAVBAR ── */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  border-bottom: 1px solid #e8e8e8;
+}
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #000;
+}
+.logo span { color: #000; }
+
+/* Hamburger button */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #000;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+/* Full screen overlay */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.nav-overlay.open { opacity: 1; pointer-events: all; }
+.overlay-close {
+  position: absolute;
+  top: 28px;
+  right: 40px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+}
+.overlay-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  text-align: center;
+}
+.overlay-nav a {
+  font-size: clamp(32px, 6vw, 64px);
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: -1px;
+  transition: opacity 0.2s;
+}
+.overlay-nav a:hover { opacity: 0.5; }
+.overlay-cta {
+  margin-top: 16px;
+  padding: 20px 48px !important;
+  background: #fff !important;
+  color: #000 !important;
+  border-radius: 100px;
+  font-size: clamp(18px, 3vw, 24px) !important;
+}
+
+@media (max-width: 768px) { .nav-inner { padding: 18px 24px; } }
+@media (max-width: 480px) {
+  .nav-inner { padding: 16px 20px; }
+  .overlay-close { right: 24px; top: 22px; }
+}
 
 /* HERO */
 .hero{padding:80px 64px;display:flex;align-items:center;gap:80px;min-height:90vh;background:#fff}
@@ -197,8 +289,6 @@ footer{background:#000;padding:64px;border-top:1px solid #111}
   .footer-top{grid-template-columns:1fr 1fr}
 }
 @media(max-width:900px){
-  nav{padding:0 24px}
-  .nav-links{display:none}
   .hero{flex-direction:column;padding:56px 24px;min-height:auto;gap:48px}
   .hero h1{font-size:52px;letter-spacing:-2px}
   .hero-right{flex:none;width:100%}
@@ -249,18 +339,25 @@ footer{background:#000;padding:64px;border-top:1px solid #111}
 <body>
 
 <!-- NAV -->
-<nav>
-  <div class="nav-logo">PlugZone</div>
-  <div class="nav-links">
-    <a class="nav-link">How it works</a>
-    <a class="nav-link">Categories</a>
-    <a class="nav-link">For providers</a>
-  </div>
-  <div class="nav-right">
-    <button class="btn-ghost">Log in</button>
-    <button class="btn-black" onclick="openModal()">Join waitlist</button>
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="logo">Plug<span>Zone</span></div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- Full screen menu overlay -->
+<div class="nav-overlay" id="navOverlay">
+  <button class="overlay-close" onclick="toggleMenu()">✕</button>
+  <nav class="overlay-nav">
+    <a href="#how" onclick="toggleMenu()">How it works</a>
+    <a href="#categories" onclick="toggleMenu()">Categories</a>
+    <a href="#faq" onclick="toggleMenu()">FAQ</a>
+    <a href="#" class="overlay-cta" onclick="toggleMenu(); openModal()">Join Waitlist →</a>
+  </nav>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -349,7 +446,7 @@ footer{background:#000;padding:64px;border-top:1px solid #111}
 </div>
 
 <!-- CATEGORIES -->
-<section class="cats-section">
+<section id="categories" class="cats-section">
   <div class="section-tag">Browse by category</div>
   <div class="section-title">Find exactly what you need.</div>
   <div class="cats-grid">
@@ -443,7 +540,7 @@ footer{background:#000;padding:64px;border-top:1px solid #111}
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="how-section">
+<section id="how" class="how-section">
   <div class="section-tag">How it works</div>
   <div class="section-title" style="color:#fff;margin-bottom:32px">Simple from start to finish.</div>
   <div class="how-tabs">
@@ -543,7 +640,7 @@ footer{background:#000;padding:64px;border-top:1px solid #111}
 </section>
 
 <!-- FAQ -->
-<section class="faq-section">
+<section id="faq" class="faq-section">
   <div class="faq-left">
     <div class="section-tag">FAQ</div>
     <h2>Frequently asked questions</h2>
@@ -690,6 +787,14 @@ footer{background:#000;padding:64px;border-top:1px solid #111}
 </div>
 
 <script>
+function toggleMenu() {
+  const overlay = document.getElementById('navOverlay');
+  const hamburger = document.getElementById('hamburger');
+  overlay.classList.toggle('open');
+  hamburger.classList.toggle('open');
+  document.body.style.overflow = overlay.classList.contains('open') ? 'hidden' : '';
+}
+
 function openModal(){document.getElementById('modal').classList.add('open')}
 function closeModal(){document.getElementById('modal').classList.remove('open')}
 document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()})
@@ -711,19 +816,10 @@ function toggleSkillField(){
   document.getElementById('otherSkillWrap').style.display = 'none';
   document.getElementById('wSkill').value = '';
 }
-
-function toggleSkillField(){
-  const role = document.getElementById('wRole').value;
-  document.getElementById('skillSelectWrap').style.display = role === 'provider' ? 'block' : 'none';
-  document.getElementById('otherSkillWrap').style.display = 'none';
-  document.getElementById('wSkill').value = '';
-}
-
 function toggleOtherSkill(){
   const skill = document.getElementById('wSkill').value;
   document.getElementById('otherSkillWrap').style.display = skill === 'other' ? 'block' : 'none';
 }
-
 async function submitWaitlist(){
   const name = document.getElementById('wName').value.trim();
   const email = document.getElementById('wEmail').value.trim();
