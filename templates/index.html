@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>PlugZone — Find Skilled People Near You</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#0d0d0d;--mid:#444;--light:#888;--border:#e8e8e8;--bg:#fff;--bg2:#f7f7f7}
+body{font-family:'Inter',sans-serif;background:#fff;color:var(--dark);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{background:#fff;border-bottom:1px solid var(--border);padding:0 64px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
+.nav-logo{font-size:20px;font-weight:900;color:#000;letter-spacing:-0.5px}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-link{font-size:14px;color:var(--mid);padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:500;text-decoration:none}
+.nav-link:hover{background:var(--bg2);color:#000}
+.nav-right{display:flex;align-items:center;gap:8px}
+.btn-ghost{background:transparent;color:#000;border:1.5px solid #000;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s}
+.btn-ghost:hover{background:#000;color:#fff}
+.btn-black{background:#000;color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background 0.15s}
+.btn-black:hover{background:#222}
+
+/* HERO */
+.hero{padding:80px 64px;display:flex;align-items:center;gap:80px;min-height:90vh;background:#fff}
+.hero-left{flex:1;min-width:0}
+.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--light);margin-bottom:20px}
+.hero h1{font-size:72px;font-weight:900;line-height:1.0;letter-spacing:-3px;color:#000;margin-bottom:24px}
+.hero-sub{font-size:17px;color:var(--mid);max-width:420px;line-height:1.75;font-weight:400;margin-bottom:40px}
+.hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.btn-black-lg{background:#000;color:#fff;border:none;padding:14px 28px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background 0.15s}
+.btn-black-lg:hover{background:#222}
+.btn-ghost-lg{background:transparent;color:#000;border:1.5px solid #000;padding:14px 28px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s}
+.btn-ghost-lg:hover{background:#000;color:#fff}
+.hero-note{font-size:13px;color:#bbb;margin-top:16px}
+.hero-right{flex:0 0 480px;min-width:0;display:flex;align-items:center;justify-content:center}
+
+/* FLOATING CIRCLES */
+.circles-wrap{position:relative;width:460px;height:460px}
+.circle-main{position:absolute;border-radius:50%;overflow:hidden;border:3px solid #000;display:flex;align-items:center;justify-content:center;font-size:32px;background:#f7f7f7;font-weight:700}
+.circle-label{position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:700;color:#000;white-space:nowrap;letter-spacing:0.5px;text-transform:uppercase}
+.c1{width:130px;height:130px;top:20px;left:60px}
+.c2{width:110px;height:110px;top:0;right:60px}
+.c3{width:140px;height:140px;top:140px;left:0}
+.c4{width:120px;height:120px;top:160px;right:20px}
+.c5{width:100px;height:100px;bottom:60px;left:100px}
+.c6{width:115px;height:115px;bottom:40px;right:80px}
+.circle-badge{position:absolute;background:#000;color:#fff;padding:6px 12px;border-radius:100px;font-size:11px;font-weight:700;white-space:nowrap}
+.badge1{top:50%;left:50%;transform:translate(-50%,-50%)}
+.float-line{position:absolute;width:60px;height:1px;background:#000;opacity:0.15}
+.fl1{top:80px;left:180px;transform:rotate(-20deg)}
+.fl2{top:200px;right:140px;transform:rotate(30deg)}
+.fl3{bottom:120px;left:140px;transform:rotate(-10deg)}
+
+/* TICKER */
+.ticker-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:18px 0;overflow:hidden;background:#fff}
+.ticker-track{display:flex;gap:64px;animation:ticker 20s linear infinite;width:max-content}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{font-size:13px;font-weight:700;color:#000;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.ticker-dot{width:5px;height:5px;border-radius:50%;background:#000;flex-shrink:0}
+
+/* SECTION LAYOUT */
+.section{padding:100px 64px}
+.section-tag{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--light);margin-bottom:16px}
+.section-title{font-size:48px;font-weight:900;letter-spacing:-2px;line-height:1.05;color:#000;margin-bottom:16px}
+.section-sub{font-size:16px;color:var(--mid);font-weight:400;line-height:1.7;max-width:500px;margin-bottom:48px}
+
+/* STATS BAND */
+.stats-band{background:#000;padding:56px 64px;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.stat{padding:0 48px;border-right:1px solid #222}
+.stat:first-child{padding-left:0}
+.stat:last-child{border-right:none}
+.stat-num{font-size:48px;font-weight:900;color:#fff;letter-spacing:-2px;line-height:1}
+.stat-label{font-size:13px;color:#666;margin-top:8px;font-weight:400}
+
+/* CATEGORIES */
+.cats-section{background:var(--bg2);padding:80px 64px}
+.cats-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:40px}
+.cat-chip{display:flex;align-items:center;gap:8px;padding:10px 20px;border:1.5px solid #000;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;color:#000;background:#fff}
+.cat-chip:hover,.cat-chip.active{background:#000;color:#fff}
+.cat-emoji{font-size:15px}
+
+/* SPLIT SECTIONS */
+.split{padding:80px 64px;display:flex;align-items:center;gap:80px;border-top:1px solid var(--border)}
+.split.reverse{flex-direction:row-reverse}
+.split-text{flex:1}
+.split-text h2{font-size:44px;font-weight:900;letter-spacing:-2px;line-height:1.05;color:#000;margin-bottom:16px}
+.split-text p{font-size:15px;color:var(--mid);line-height:1.75;margin-bottom:28px;max-width:480px}
+.split-text ul{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.split-text ul li{font-size:14px;color:var(--mid);display:flex;align-items:flex-start;gap:10px}
+.split-text ul li::before{content:'—';color:#000;font-weight:700;flex-shrink:0}
+.split-visual{flex:1;border-radius:16px;overflow:hidden;border:1.5px solid var(--border);background:var(--bg2);min-height:360px;display:flex;align-items:center;justify-content:center}
+.split-visual-inner{width:100%;padding:40px;display:flex;flex-direction:column;gap:12px}
+.provider-row{display:flex;align-items:center;gap:14px;padding:16px 20px;background:#fff;border-radius:12px;border:1px solid var(--border)}
+.pr-avatar{width:44px;height:44px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:20px;border:1.5px solid var(--border);flex-shrink:0}
+.pr-info{flex:1}
+.pr-name{font-size:14px;font-weight:700;color:#000}
+.pr-skill{font-size:12px;color:var(--light)}
+.pr-badge{font-size:11px;font-weight:700;background:#000;color:#fff;padding:3px 10px;border-radius:100px}
+
+/* HOW IT WORKS */
+.how-section{padding:100px 64px;background:#000}
+.how-section .section-tag{color:#555}
+.how-section .section-title{color:#fff}
+.how-tabs{display:flex;gap:4px;margin-bottom:48px}
+.how-tab{padding:10px 24px;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;border:1.5px solid #333;background:transparent;color:#555;font-family:'Inter',sans-serif;transition:all 0.15s}
+.how-tab.active{background:#fff;color:#000;border-color:#fff}
+.how-tab:hover{border-color:#666;color:#fff}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.how-step{background:#111;padding:48px 36px}
+.how-step:first-child{border-radius:16px 0 0 16px}
+.how-step:last-child{border-radius:0 16px 16px 0}
+.step-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#444;margin-bottom:24px}
+.step-icon{font-size:36px;margin-bottom:20px}
+.step-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:12px;letter-spacing:-0.5px}
+.step-desc{font-size:14px;color:#666;line-height:1.75}
+
+/* PROVIDERS GRID */
+.providers-section{padding:100px 64px;background:#fff;border-top:1px solid var(--border)}
+.providers-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:48px}
+.provider-card{border:1.5px solid var(--border);border-radius:14px;padding:24px 16px;text-align:center;cursor:pointer;transition:all 0.15s}
+.provider-card:hover{border-color:#000;transform:translateY(-2px)}
+.p-avatar{width:56px;height:56px;border-radius:50%;margin:0 auto 12px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:24px;border:1.5px solid var(--border)}
+.p-name{font-size:13px;font-weight:800;color:#000;margin-bottom:4px}
+.p-skill{font-size:12px;color:var(--light);margin-bottom:8px}
+.p-price{font-size:12px;font-weight:600;color:#000}
+
+/* TESTIMONIALS */
+.testimonials-section{padding:100px 64px;background:var(--bg2);border-top:1px solid var(--border)}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.test-card{background:#fff;border-radius:16px;padding:32px;border:1.5px solid var(--border)}
+.test-quote{font-size:28px;font-weight:900;color:#000;margin-bottom:12px}
+.test-text{font-size:14px;color:var(--mid);line-height:1.75;margin-bottom:24px}
+.test-author{display:flex;align-items:center;gap:12px;padding-top:20px;border-top:1px solid var(--border)}
+.test-avatar{width:36px;height:36px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:15px;border:1px solid var(--border)}
+.test-name{font-size:13px;font-weight:700;color:#000}
+.test-role{font-size:12px;color:var(--light)}
+
+/* FAQ */
+.faq-section{padding:100px 64px;background:#fff;border-top:1px solid var(--border);display:flex;gap:80px;align-items:flex-start}
+.faq-left{flex:0 0 300px}
+.faq-left h2{font-size:44px;font-weight:900;letter-spacing:-2px;line-height:1.05;color:#000;margin-bottom:16px}
+.faq-left p{font-size:14px;color:var(--mid);line-height:1.7}
+.faq-right{flex:1}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:22px 0;font-size:15px;font-weight:600;color:#000;cursor:pointer;gap:20px}
+.faq-q:hover{color:var(--mid)}
+.faq-icon{font-size:18px;color:var(--light);flex-shrink:0;transition:transform 0.2s}
+.faq-item.open .faq-icon{transform:rotate(45deg);color:#000}
+.faq-a{font-size:14px;color:var(--mid);line-height:1.75;padding-bottom:20px;display:none}
+.faq-item.open .faq-a{display:block}
+
+/* FINAL CTA */
+.final-cta{padding:100px 64px;border-top:1px solid var(--border);text-align:center}
+.final-cta h2{font-size:64px;font-weight:900;letter-spacing:-3px;line-height:1.0;color:#000;margin-bottom:24px;max-width:700px;margin-left:auto;margin-right:auto}
+.final-cta p{font-size:16px;color:var(--mid);margin-bottom:40px}
+.final-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+
+/* FOOTER */
+footer{background:#000;padding:64px;border-top:1px solid #111}
+.footer-top{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:48px;margin-bottom:56px}
+.footer-brand .footer-logo{font-size:22px;font-weight:900;color:#fff;margin-bottom:12px}
+.footer-brand p{font-size:13px;color:#555;line-height:1.7;max-width:200px}
+.footer-col h4{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:20px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col ul li a{font-size:13px;color:#444;text-decoration:none;transition:color 0.15s}
+.footer-col ul li a:hover{color:#fff}
+.footer-bottom{border-top:1px solid #111;padding-top:32px;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:12px;color:#333}
+.footer-bottom-links{display:flex;gap:24px}
+.footer-bottom-links a{font-size:12px;color:#333;text-decoration:none}
+.footer-bottom-links a:hover{color:#666}
+
+/* MODAL */
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center}
+.modal-wrap.open{display:flex}
+.modal{background:#fff;border-radius:16px;padding:40px;width:100%;max-width:420px;margin:16px;position:relative}
+.modal-x{position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#aaa;font-size:22px;line-height:1;font-family:'Inter',sans-serif}
+.modal h3{font-size:26px;font-weight:900;letter-spacing:-0.5px;margin-bottom:6px;color:#000}
+.modal-sub{font-size:14px;color:var(--light);margin-bottom:24px}
+.fg{margin-bottom:12px}
+.fg input,.fg select{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;color:#000;outline:none;background:#fff}
+.fg input:focus,.fg select:focus{border-color:#000}
+.modal-submit{width:100%;padding:14px;background:#000;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-top:4px;transition:background 0.15s}
+.modal-submit:hover{background:#222}
+.modal-err{color:#000;font-size:13px;margin-top:8px;display:none;font-weight:600}
+.success-wrap{text-align:center;padding:24px 0}
+.success-wrap .big{font-size:48px;margin-bottom:12px}
+.success-wrap h4{font-size:22px;font-weight:900;margin-bottom:8px;letter-spacing:-0.5px}
+.success-wrap p{font-size:14px;color:var(--light)}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .providers-grid{grid-template-columns:repeat(4,1fr)}
+  .footer-top{grid-template-columns:1fr 1fr}
+}
+@media(max-width:900px){
+  nav{padding:0 24px}
+  .nav-links{display:none}
+  .hero{flex-direction:column;padding:56px 24px;min-height:auto;gap:48px}
+  .hero h1{font-size:52px;letter-spacing:-2px}
+  .hero-right{flex:none;width:100%}
+  .circles-wrap{width:100%;height:320px}
+  .c1{width:100px;height:100px;top:10px;left:30px}
+  .c2{width:90px;height:90px;top:0;right:30px}
+  .c3{width:110px;height:110px;top:100px;left:0}
+  .c4{width:95px;height:95px;top:120px;right:10px}
+  .c5{width:80px;height:80px;bottom:20px;left:70px}
+  .c6{width:90px;height:90px;bottom:10px;right:50px}
+  .stats-band{grid-template-columns:repeat(2,1fr);gap:32px;padding:48px 24px}
+  .stat{border-right:none;padding:0}
+  .cats-section,.section,.split,.how-section,.providers-section,.testimonials-section,.faq-section,.final-cta{padding:64px 24px}
+  .split,.split.reverse{flex-direction:column;gap:40px}
+  .faq-section{flex-direction:column;gap:40px}
+  .faq-left{flex:none}
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px;padding:0}
+  footer{padding:48px 24px}
+  .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+  .how-steps{grid-template-columns:1fr}
+  .how-step:first-child,.how-step:last-child{border-radius:0}
+  .how-step:first-child{border-radius:16px 16px 0 0}
+  .how-step:last-child{border-radius:0 0 16px 16px}
+  .providers-grid{grid-template-columns:repeat(3,1fr)}
+  .test-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .hero h1{font-size:40px;letter-spacing:-1.5px}
+  .section-title,.split-text h2,.faq-left h2,.final-cta h2{font-size:34px;letter-spacing:-1px}
+  .stat-num{font-size:36px}
+  .providers-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-top{grid-template-columns:1fr}
+  .how-tabs{flex-wrap:wrap}
+  .hero-actions,.final-actions{flex-direction:column;align-items:stretch}
+  .btn-black-lg,.btn-ghost-lg,.btn-white,.btn-black,.btn-ghost{width:100%;text-align:center}
+  .final-cta h2{font-size:36px}
+  .circles-wrap{height:260px}
+  .c1{width:80px;height:80px;font-size:24px}
+  .c2{width:70px;height:70px;font-size:20px}
+  .c3{width:85px;height:85px;font-size:26px}
+  .c4{width:75px;height:75px;font-size:22px}
+  .c5{width:65px;height:65px;font-size:18px}
+  .c6{width:72px;height:72px;font-size:20px}
+  .circle-label{font-size:9px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PlugZone</div>
+  <div class="nav-links">
+    <a class="nav-link">How it works</a>
+    <a class="nav-link">Categories</a>
+    <a class="nav-link">For providers</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-ghost">Log in</button>
+    <button class="btn-black" onclick="openModal()">Join waitlist</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Find · Book · Get it done</div>
+    <h1>Find the right person for any job.</h1>
+    <p class="hero-sub">PlugZone connects you with trusted local service providers — barbers, chefs, nail techs, house agents and more. Book in minutes, pay securely.</p>
+    <div class="hero-actions">
+      <button class="btn-black-lg" onclick="openModal()">Find a service</button>
+      <button class="btn-ghost-lg" onclick="openModal()">Offer your skill</button>
+    </div>
+    <p class="hero-note">Free to join — Launching in Lagos, Abuja & Port Harcourt</p>
+  </div>
+  <div class="hero-right">
+    <div class="circles-wrap">
+  {% load static %}
+  <div class="circle-main c1">
+    <img src="{% static 'images/circle1.jpg' %}" alt="Barber" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>
+    <div class="circle-label">Barber</div>
+  </div>
+  <div class="circle-main c2">
+    <img src="{% static 'images/circle2.jpg' %}" alt="Hair" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>
+    <div class="circle-label">Hair</div>
+  </div>
+  <div class="circle-main c3">
+    <img src="{% static 'images/circle3.jpg' %}" alt="Chef" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>
+    <div class="circle-label">Chef</div>
+  </div>
+  <div class="circle-main c4">
+    <img src="{% static 'images/circle4.jpg' %}" alt="Nail Tech" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>
+    <div class="circle-label">Nail Tech</div>
+  </div>
+  <div class="circle-main c5">
+    <img src="{% static 'images/circle5.jpg' %}" alt="Agent" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>
+    <div class="circle-label">Agent</div>
+  </div>
+  <div class="circle-main c6">
+    <img src="{% static 'images/circle6.jpg' %}" alt="Cleaner" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>
+    <div class="circle-label">Cleaner</div>
+  </div>
+  <div class="circle-badge badge1">500+ providers joining</div>
+</div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <div class="ticker-item"><span class="ticker-dot"></span>Barbers</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Hair Dressers</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Nail Technicians</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Private Chefs</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Fast Food Joints</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Food Sellers</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>House Agents</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>House Cleaners</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Photographers</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Electricians</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Mechanics</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Personal Trainers</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Tutors</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Designers</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Barbers</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Hair Dressers</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Nail Technicians</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Private Chefs</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Fast Food Joints</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Food Sellers</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>House Agents</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>House Cleaners</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Photographers</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Electricians</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Mechanics</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Personal Trainers</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Tutors</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Designers</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Providers on the waitlist</div></div>
+  <div class="stat"><div class="stat-num">25+</div><div class="stat-label">Service categories</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Launch cities</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Free to join</div></div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="cats-section">
+  <div class="section-tag">Browse by category</div>
+  <div class="section-title">Find exactly what you need.</div>
+  <div class="cats-grid">
+    <div class="cat-chip active" onclick="setActive(this)"><span class="cat-emoji">✂️</span> Barbers</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">💇‍♀️</span> Hair Dressers</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">💅</span> Nail Technicians</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">🍳</span> Private Chefs</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">🍔</span> Fast Food Joints</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">🥘</span> Home Food Sellers</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">🏠</span> House Agents</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">🧹</span> House Cleaners</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">🔧</span> Mechanics</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">📸</span> Photographers</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">⚡</span> Electricians</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">📚</span> Private Tutors</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">🏋️</span> Personal Trainers</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">🎨</span> Designers</div>
+    <div class="cat-chip" onclick="setActive(this)"><span class="cat-emoji">📦</span> Delivery Riders</div>
+  </div>
+</section>
+
+<!-- SPLIT: FOR CLIENTS -->
+<section class="split">
+  <div class="split-text">
+    <div class="section-tag">For clients</div>
+    <h2>Stop searching. Start booking.</h2>
+    <p>Finding a good barber, cleaner, or chef in Nigeria shouldn't feel like detective work. PlugZone gives you verified profiles, real reviews, and direct booking — all in one place.</p>
+    <ul>
+      <li>Browse verified profiles with portfolio and ratings</li>
+      <li>See real reviews from people who actually used the service</li>
+      <li>Book directly — no DMs, no back-and-forth</li>
+      <li>Pay securely when the job is done</li>
+    </ul>
+    <button class="btn-black-lg" onclick="openModal()">Find a provider</button>
+  </div>
+  <div class="split-visual">
+    <div class="split-visual-inner">
+      <div class="provider-row">
+        <div class="pr-avatar">✂️</div>
+        <div class="pr-info"><div class="pr-name">Barber Kay</div><div class="pr-skill">Cuts & Fades · Ikeja, Lagos</div></div>
+        <div class="pr-badge">★ 4.9</div>
+      </div>
+      <div class="provider-row">
+        <div class="pr-avatar">💇‍♀️</div>
+        <div class="pr-info"><div class="pr-name">Amaka O.</div><div class="pr-skill">Hair Stylist · Lekki, Lagos</div></div>
+        <div class="pr-badge">★ 5.0</div>
+      </div>
+      <div class="provider-row">
+        <div class="pr-avatar">💅</div>
+        <div class="pr-info"><div class="pr-name">Blessing N.</div><div class="pr-skill">Nail Tech · Surulere, Lagos</div></div>
+        <div class="pr-badge">★ 4.8</div>
+      </div>
+      <div class="provider-row">
+        <div class="pr-avatar">🍳</div>
+        <div class="pr-info"><div class="pr-name">Chef Tunde</div><div class="pr-skill">Private Chef · Victoria Island</div></div>
+        <div class="pr-badge">★ 5.0</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT: FOR PROVIDERS -->
+<section class="split reverse">
+  <div class="split-text">
+    <div class="section-tag">For providers</div>
+    <h2>Your skill is your business.</h2>
+    <p>Whether you're a barber, nail tech, home cook, or house agent — PlugZone gives you a professional platform to showcase your work and get booked by real clients near you.</p>
+    <ul>
+      <li>Create a profile and upload your portfolio in minutes</li>
+      <li>Set your own price and availability</li>
+      <li>Receive booking notifications and manage jobs easily</li>
+      <li>Get paid securely — no cash drama</li>
+    </ul>
+    <button class="btn-black-lg" onclick="openModal()">List your skill</button>
+  </div>
+  <div class="split-visual">
+    <div class="split-visual-inner">
+      <div style="background:#fff;border-radius:12px;border:1px solid var(--border);padding:24px;text-align:center">
+        <div style="font-size:48px;margin-bottom:12px">👤</div>
+        <div style="font-size:16px;font-weight:800;color:#000;margin-bottom:4px">Your Profile</div>
+        <div style="font-size:13px;color:var(--light);margin-bottom:20px">Nail Technician · Lagos</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px">
+          <div style="background:var(--bg2);border-radius:8px;padding:12px;font-size:11px;font-weight:700;color:#000">12<br><span style="font-weight:400;color:var(--light)">Reviews</span></div>
+          <div style="background:var(--bg2);border-radius:8px;padding:12px;font-size:11px;font-weight:700;color:#000">4.9<br><span style="font-weight:400;color:var(--light)">Rating</span></div>
+          <div style="background:var(--bg2);border-radius:8px;padding:12px;font-size:11px;font-weight:700;color:#000">34<br><span style="font-weight:400;color:var(--light)">Jobs</span></div>
+        </div>
+        <div style="background:#000;color:#fff;padding:10px;border-radius:8px;font-size:13px;font-weight:700">Available for booking</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="section-tag">How it works</div>
+  <div class="section-title" style="color:#fff;margin-bottom:32px">Simple from start to finish.</div>
+  <div class="how-tabs">
+    <button class="how-tab active" onclick="setTab(this,'client')">For clients</button>
+    <button class="how-tab" onclick="setTab(this,'provider')">For providers</button>
+  </div>
+  <div class="how-steps" id="client-steps">
+    <div class="how-step">
+      <div class="step-num">Step 01</div>
+      <div class="step-icon">🔍</div>
+      <div class="step-title">Find your plug</div>
+      <div class="step-desc">Search by skill, location, price or rating. Browse verified profiles with real portfolios and honest reviews from past clients.</div>
+    </div>
+    <div class="how-step">
+      <div class="step-num">Step 02</div>
+      <div class="step-icon">📅</div>
+      <div class="step-title">Book direct</div>
+      <div class="step-desc">See their availability and place your order directly on the platform. No DMs, no back-and-forth — just a clean booking in seconds.</div>
+    </div>
+    <div class="how-step">
+      <div class="step-num">Step 03</div>
+      <div class="step-icon">✅</div>
+      <div class="step-title">Get it done</div>
+      <div class="step-desc">Track your order in real time. Pay securely only when the job is done. Then leave a review so others can trust the platform too.</div>
+    </div>
+  </div>
+  <div class="how-steps" id="provider-steps" style="display:none">
+    <div class="how-step">
+      <div class="step-num">Step 01</div>
+      <div class="step-icon">👤</div>
+      <div class="step-title">Create your profile</div>
+      <div class="step-desc">Sign up, list your skill, set your price, and upload portfolio photos. Your profile is your shopfront — make it count.</div>
+    </div>
+    <div class="how-step">
+      <div class="step-num">Step 02</div>
+      <div class="step-icon">📩</div>
+      <div class="step-title">Receive bookings</div>
+      <div class="step-desc">Clients find you and book directly. You get notified instantly and can accept, manage, and track all your jobs in one place.</div>
+    </div>
+    <div class="how-step">
+      <div class="step-num">Step 03</div>
+      <div class="step-icon">💰</div>
+      <div class="step-title">Get paid</div>
+      <div class="step-desc">Complete the job and get paid securely through the platform. No chasing clients, no cash wahala — just clean transactions every time.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROVIDERS GRID -->
+<section class="providers-section">
+  <div class="section-tag">Who you'll find</div>
+  <div class="section-title">Real people. Real skills.</div>
+  <div class="providers-grid">
+    <div class="provider-card"><div class="p-avatar">✂️</div><div class="p-name">Barbers</div><div class="p-skill">Cuts, fades, lineups</div><div class="p-price">From ₦1,500</div></div>
+    <div class="provider-card"><div class="p-avatar">💇‍♀️</div><div class="p-name">Hair Dressers</div><div class="p-skill">Braids, weaves, relaxers</div><div class="p-price">From ₦3,000</div></div>
+    <div class="provider-card"><div class="p-avatar">💅</div><div class="p-name">Nail Technicians</div><div class="p-skill">Gel, acrylics, nail art</div><div class="p-price">From ₦2,500</div></div>
+    <div class="provider-card"><div class="p-avatar">🍳</div><div class="p-name">Private Chefs</div><div class="p-skill">Events, daily meals</div><div class="p-price">From ₦10,000</div></div>
+    <div class="provider-card"><div class="p-avatar">🍔</div><div class="p-name">Fast Food</div><div class="p-skill">Order & pickup nearby</div><div class="p-price">From ₦800</div></div>
+    <div class="provider-card"><div class="p-avatar">🥘</div><div class="p-name">Food Sellers</div><div class="p-skill">Homemade, fresh daily</div><div class="p-price">From ₦500</div></div>
+    <div class="provider-card"><div class="p-avatar">🏠</div><div class="p-name">House Agents</div><div class="p-skill">Rentals, listings, tours</div><div class="p-price">Commission based</div></div>
+    <div class="provider-card"><div class="p-avatar">🧹</div><div class="p-name">House Cleaners</div><div class="p-skill">Deep clean, regular</div><div class="p-price">From ₦5,000</div></div>
+    <div class="provider-card"><div class="p-avatar">📸</div><div class="p-name">Photographers</div><div class="p-skill">Events, portraits, content</div><div class="p-price">From ₦15,000</div></div>
+    <div class="provider-card"><div class="p-avatar">⚡</div><div class="p-name">Electricians</div><div class="p-skill">Repairs, installations</div><div class="p-price">From ₦3,000</div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="section-tag">Early community</div>
+  <div class="section-title">What people are saying.</div>
+  <div class="test-grid">
+    <div class="test-card">
+      <div class="test-quote">"</div>
+      <div class="test-text">Finding a good barber or cleaner in Lagos is a nightmare. PlugZone solves that completely — one platform, verified people, clean booking.</div>
+      <div class="test-author">
+        <div class="test-avatar">👨🏾</div>
+        <div><div class="test-name">Emeka A.</div><div class="test-role">Waitlist member · Lagos</div></div>
+      </div>
+    </div>
+    <div class="test-card">
+      <div class="test-quote">"</div>
+      <div class="test-text">As a nail tech I spend so much time chasing clients on Instagram. A proper platform where clients come to me is exactly what I need.</div>
+      <div class="test-author">
+        <div class="test-avatar">👩🏾</div>
+        <div><div class="test-name">Chiamaka B.</div><div class="test-role">Nail Technician · Abuja</div></div>
+      </div>
+    </div>
+    <div class="test-card">
+      <div class="test-quote">"</div>
+      <div class="test-text">I sell food from home and my only marketing is WhatsApp status. PlugZone will change everything for people like me — I can't wait.</div>
+      <div class="test-author">
+        <div class="test-avatar">👩🏿</div>
+        <div><div class="test-name">Fatima K.</div><div class="test-role">Home chef · Port Harcourt</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="faq-left">
+    <div class="section-tag">FAQ</div>
+    <h2>Frequently asked questions</h2>
+    <p>Can't find what you're looking for? Join the waitlist and we'll answer personally.</p>
+  </div>
+  <div class="faq-right">
+    <div class="faq-item open" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>What is PlugZone?</span><span class="faq-icon">+</span></div>
+      <div class="faq-a">PlugZone is a local services marketplace that connects clients with skilled service providers near them — from barbers and nail techs to private chefs, house agents, cleaners and more.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>Is it free to join the waitlist?</span><span class="faq-icon">+</span></div>
+      <div class="faq-a">Completely free. Joining the waitlist costs nothing and gets you early access when we launch, plus exclusive perks for early supporters.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>Can I sign up as both a client and a provider?</span><span class="faq-icon">+</span></div>
+      <div class="faq-a">Yes. You can use PlugZone to find services and to offer your own skills — both roles are supported on one account.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>Which cities will PlugZone launch in first?</span><span class="faq-icon">+</span></div>
+      <div class="faq-a">We are starting with Lagos, Abuja, and Port Harcourt, then expanding based on demand across Nigeria and Africa.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>How does payment work?</span><span class="faq-icon">+</span></div>
+      <div class="faq-a">Payments are held securely on the platform until the job is completed. Once you confirm the job is done, the provider gets paid. No cash, no stress.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>When does PlugZone launch?</span><span class="faq-icon">+</span></div>
+      <div class="faq-a">We are actively building. Join the waitlist to be first in line and get notified the moment we go live.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" style="background:#000;border-top:none">
+  <h2 style="color:#fff">Find your plug.<br>Or become one.</h2>
+  <p style="color:#555">Join thousands of people waiting for a better way to find and offer local services.</p>
+  <div class="final-actions">
+    <button class="btn-white" style="background:#fff;color:#000;border:none;padding:14px 32px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif" onclick="openModal()">Join the waitlist →</button>
+  </div>
+  <p style="font-size:13px;color:#333;margin-top:16px">Free forever · Launching soon in Nigeria</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">PlugZone</div>
+      <p>A local services marketplace built for Africa. Find skilled people near you, or list your skill and get booked.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#">How it works</a></li>
+        <li><a href="#">Browse categories</a></li>
+        <li><a href="#">For providers</a></li>
+        <li><a href="#">Join the waitlist</a></li>
+        <li><a href="#">About us</a></li>
+        <li><a href="#">Privacy policy</a></li>
+        <li><a href="#">Terms of service</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>People We Work With</h4>
+      <ul>
+        <li><a href="#">Barbers</a></li>
+        <li><a href="#">Hair Dressers</a></li>
+        <li><a href="#">Nail Technicians</a></li>
+        <li><a href="#">Private Chefs</a></li>
+        <li><a href="#">Food Sellers</a></li>
+        <li><a href="#">House Agents</a></li>
+        <li><a href="#">House Cleaners</a></li>
+        <li><a href="#">Photographers</a></li>
+        <li><a href="#">Electricians</a></li>
+        <li><a href="#">Mechanics</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <ul>
+        <li><a href="#">hello@plugzone.ng</a></li>
+        <li><a href="#">WhatsApp us</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Twitter / X</a></li>
+        <li><a href="#">TikTok</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 PlugZone. Built for Africa.</div>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-wrap" id="modal">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">✕</button>
+    <div id="mContent">
+  <h3>Join the waitlist</h3>
+  <p class="modal-sub">Be first when PlugZone launches. Early members get exclusive perks.</p>
+  <div class="fg"><input type="text" id="wName" placeholder="Your full name"/></div>
+  <div class="fg"><input type="email" id="wEmail" placeholder="Email address"/></div>
+  <div class="fg">
+    <select id="wRole" onchange="toggleSkillField()">
+      <option value="">I am joining as...</option>
+      <option value="client">I need a service</option>
+      <option value="provider">I offer a service</option>
+    </select>
+  </div>
+  <div class="fg" id="skillSelectWrap" style="display:none">
+    <select id="wSkill" onchange="toggleOtherSkill()">
+      <option value="">Select your skill</option>
+      <option value="Barber">Barber</option>
+      <option value="Hair Dresser">Hair Dresser</option>
+      <option value="Nail Technician">Nail Technician</option>
+      <option value="Private Chef">Private Chef</option>
+      <option value="Fast Food">Fast Food Joint</option>
+      <option value="Home Food Seller">Home Food Seller</option>
+      <option value="House Agent">House Agent</option>
+      <option value="House Cleaner">House Cleaner</option>
+      <option value="Mechanic">Mechanic</option>
+      <option value="Photographer">Photographer</option>
+      <option value="Electrician">Electrician</option>
+      <option value="Private Tutor">Private Tutor</option>
+      <option value="Personal Trainer">Personal Trainer</option>
+      <option value="Designer">Designer</option>
+      <option value="Delivery Rider">Delivery Rider</option>
+      <option value="other">My skill is not listed</option>
+    </select>
+  </div>
+  <div class="fg" id="otherSkillWrap" style="display:none">
+    <input type="text" id="wOtherSkill" placeholder="Enter your skill e.g. Makeup Artist"/>
+  </div>
+  <button class="modal-submit" onclick="submitWaitlist()">Get early access →</button>
+  <p class="modal-err" id="mErr"></p>
+</div>
+  </div>
+</div>
+
+<script>
+function openModal(){document.getElementById('modal').classList.add('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()})
+function setActive(el){document.querySelectorAll('.cat-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active')}
+function setTab(el,tab){
+  document.querySelectorAll('.how-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('client-steps').style.display=tab==='client'?'grid':'none';
+  document.getElementById('provider-steps').style.display=tab==='provider'?'grid':'none';
+}
+function toggleFaq(item){
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-icon').textContent='+'});
+  if(!isOpen){item.classList.add('open');item.querySelector('.faq-icon').textContent='−'}
+}
+function toggleSkillField(){
+  const role = document.getElementById('wRole').value;
+  document.getElementById('skillSelectWrap').style.display = role === 'provider' ? 'block' : 'none';
+  document.getElementById('otherSkillWrap').style.display = 'none';
+  document.getElementById('wSkill').value = '';
+}
+
+function toggleSkillField(){
+  const role = document.getElementById('wRole').value;
+  document.getElementById('skillSelectWrap').style.display = role === 'provider' ? 'block' : 'none';
+  document.getElementById('otherSkillWrap').style.display = 'none';
+  document.getElementById('wSkill').value = '';
+}
+
+function toggleOtherSkill(){
+  const skill = document.getElementById('wSkill').value;
+  document.getElementById('otherSkillWrap').style.display = skill === 'other' ? 'block' : 'none';
+}
+
+async function submitWaitlist(){
+  const name = document.getElementById('wName').value.trim();
+  const email = document.getElementById('wEmail').value.trim();
+  const role = document.getElementById('wRole').value;
+  const err = document.getElementById('mErr');
+
+  let skill = '';
+  if(role === 'provider'){
+    skill = document.getElementById('wSkill').value;
+    if(skill === 'other') skill = document.getElementById('wOtherSkill').value.trim();
+    if(!skill){err.textContent='Please select or enter your skill.';err.style.display='block';return}
+  }
+
+  if(!name||!email||!role){err.textContent='Please fill in all fields.';err.style.display='block';return}
+
+  try{
+    const res=await fetch('/waitlist/',{method:'POST',headers:{'Content-Type':'application/json','X-CSRFToken':document.cookie.match(/csrftoken=([^;]+)/)?.[1]||''},body:JSON.stringify({name,email,role,skill})});
+    const data=await res.json();
+    if(data.success){document.getElementById('mContent').innerHTML=`<div class="success-wrap"><div class="big">🎉</div><h4>You're on the list!</h4><p>We'll reach out to <strong>${email}</strong> when PlugZone launches.</p></div>`;}
+    else{err.textContent=data.error||'Something went wrong.';err.style.display='block';}
+  }catch(e){err.textContent='Could not connect. Try again.';err.style.display='block';}
+}
+</script>
+</body>
+</html>
